@@ -7,50 +7,65 @@
 
 $(document).ready(function(){
 
-  $("#currentDay").text( moment().format("[Today is] dddd"));
 
-  var a = 9;
-  var b = 16;
+    //moment.js displaying the current date
+  $("#currentDay").text(moment().format("dddd,MMM Do"));
+
+//   //needed varibles
+//   two different variables holding the value of 9. one to changes back to one once it hits 13
+//   the other is to count to 24 
+  var countToThirteen = 9; 
+  var countToTwentyFour = 9;
   var amPm = "am";
-  var theHour =  12 //moment().hour();
+  var theHour = moment().hour();
 
-  console.log(theHour);
   function textBox(){
     var form = $("<form>");
     var label = $("<label>");
     var textbox = $("<textArea>");
     var save = $("<button>");
+    var saveIcon = $("<i>");
 
 
-    
-    form.addClass("time-block row description col-12 ")
-    textbox.attr("data-time", a);
-    form.attr("id", a);
-    
-    label.text(a + ":00" + amPm)
-    label.addClass("hour col-2")
-    textbox.addClass(" textarea  col-8");
+    form.attr("id", countToTwentyFour);
+    form.addClass("time-block row col-12 ");
+   
+    label.text(countToThirteen + ":00" + amPm)
+    label.addClass("hour row col-1")
 
-    save.addClass( "col-2 saveBtn i ")
-    save.text("💾")
+    textbox.attr("data-time", countToTwentyFour);
+    textbox.addClass(" textarea col-10");
+
+    save.addClass( "col-1 saveBtn i ")
+    save.on("click",function(){
+        event.preventDefault();
+        $(this).siblings('.description').val()
+     var time = $(this).parent().attr('id');
+     var value = $(this).siblings('.description').val();
+        localStorage.setItem(time,value);
+    });
+    saveIcon.addClass("fas fa-save");
+
 
     $(form).append(label)
     $(form).append(textbox)
     $(form).append(save)
+    $(save).append(saveIcon)
+
     $('.container').append(form);
 
-    a++;
-    b++;
-    if(a == 13){
-        a = 1;
+    countToThirteen++;
+    countToTwentyFour++;
+    if(countToThirteen == 13){
+        countToThirteen = 1;
     }
-    if(a == 12){
+    if(countToThirteen == 12){
         amPm = "pm";
         
     }
 
-    if(b == 24){
-        b = 0
+    if(countToTwentyFour == 24){
+        countToTwentyFour = 0
     }
     if(theHour >= 13){
         c = 12;
@@ -58,39 +73,33 @@ $(document).ready(function(){
         c = 0;
     }
     
- 
-    timeColor()
 
-  
-        // console.log(this);
-//     var textboxes = $('[data-time="' + (theHour - c) +'"]');;
-//     var textfutureboxes = $('[data-time="' + (theHour - c + 1) +'"]');;
-//     textboxes.addClass("present");
-//     textfutureboxes.addClass("future");
-  }
-
-  function timeColor(){
-  var textboxid = $(this).attr("id")
-  console.log(textboxid);
-  if(textboxid < theHour){
-    $(this).removeClass("present future")
-    $(this).addClass("past")
-  }else if(textboxid === theHour){
-    $(this).removeClass("past future")
-    $(this).addClass("present")
-    } else {
-        $(this).removeClass("past present");
-        $(this).addClass("future")
-    }
-  
 
   }
 
 
   for(i=0;i< 9;i++){
-      textBox();
-      
-  }
+    textBox();
+    
+}
+$('.time-block').each(function timeColor(){
+    var textboxid = $(this).attr("id")
+    
+    $('*[data-time="'+ textboxid + '"]').val(localStorage.getItem(textboxid));
+
+    if(textboxid < theHour){
+      $(this).removeClass("present future")
+      $(this).addClass("past")
+    }else if(textboxid == theHour){
+      $(this).removeClass("past future")
+      $(this).addClass("present")
+    } else {
+      $(this).removeClass("past present")
+      $(this).addClass("future")
+    }
+    
+
+    });
 
 });
     // start today's date
