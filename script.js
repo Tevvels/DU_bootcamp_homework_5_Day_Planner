@@ -10,9 +10,10 @@ $(document).ready(function(){
   $("#currentDay").text( moment().format("[Today is] dddd"));
 
   var a = 9;
-  var b = 9;
+  var b = 16;
   var amPm = "am";
-  var theHour = moment().hour();
+  var theHour =  12 //moment().hour();
+
   console.log(theHour);
   function textBox(){
     var form = $("<form>");
@@ -22,11 +23,13 @@ $(document).ready(function(){
 
 
     
-    form.addClass("time-block row description col-12")
-    form.attr("data-time", a);
+    form.addClass("time-block row description col-12 ")
+    textbox.attr("data-time", a);
+    form.attr("id", a);
+    
     label.text(a + ":00" + amPm)
     label.addClass("hour col-2")
-    textbox.addClass("present textarea  col-8");
+    textbox.addClass(" textarea  col-8");
 
     save.addClass( "col-2 saveBtn i ")
     save.text("💾")
@@ -48,17 +51,45 @@ $(document).ready(function(){
 
     if(b == 24){
         b = 0
-        
     }
-    if(b == theHour){
-        $('form')
+    if(theHour >= 13){
+        c = 12;
+    } else {
+        c = 0;
     }
+    
+ 
+    timeColor()
 
+  
+        // console.log(this);
+//     var textboxes = $('[data-time="' + (theHour - c) +'"]');;
+//     var textfutureboxes = $('[data-time="' + (theHour - c + 1) +'"]');;
+//     textboxes.addClass("present");
+//     textfutureboxes.addClass("future");
+  }
+
+  function timeColor(){
+  var textboxid = $(this).attr("id")
+  console.log(textboxid);
+  if(textboxid < theHour){
+    $(this).removeClass("present future")
+    $(this).addClass("past")
+  }else if(textboxid === theHour){
+    $(this).removeClass("past future")
+    $(this).addClass("present")
+    } else {
+        $(this).removeClass("past present");
+        $(this).addClass("future")
+    }
+  
 
   }
 
+
   for(i=0;i< 9;i++){
       textBox();
+      
   }
 
 });
@@ -83,3 +114,9 @@ $(document).ready(function(){
 
 
 // }
+
+// var textboxid = $(this).attr(id)
+
+
+/*$(this).addRemove*/
+// $(this).removeClass 
