@@ -85,7 +85,7 @@ $(document).ready(function(){
 $('.time-block').each(function timeColor(){
     var textboxid = $(this).attr("id")
     
-    $('*[data-time="'+ textboxid + '"]').val(localStorage.getItem(textboxid));
+    $('[data-time="'+ textboxid + '"]').val(localStorage.getItem(textboxid));
 
     if(textboxid < theHour){
       $(this).removeClass("present future")
