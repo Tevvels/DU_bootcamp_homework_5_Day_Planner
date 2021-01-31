@@ -34,7 +34,7 @@ $(document).ready(function(){
     label.addClass("hour row col-1")
 
     textbox.attr("data-time", countToTwentyFour);
-    textbox.addClass(" textarea col-10");
+    textbox.addClass("description textarea col-10");
 
     save.addClass( "col-1 saveBtn i ")
     save.on("click",function(){
@@ -84,7 +84,8 @@ $(document).ready(function(){
 }
 $('.time-block').each(function timeColor(){
     var textboxid = $(this).attr("id")
-    
+    console.log('[data-time="'+ textboxid + '"]');
+
     $('[data-time="'+ textboxid + '"]').val(localStorage.getItem(textboxid));
 
     if(textboxid < theHour){
